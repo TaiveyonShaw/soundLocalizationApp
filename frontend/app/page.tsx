@@ -2,7 +2,7 @@ import Image from "next/image";
 import reactLogo from "./../public/react.svg";
 import viteLogo from "./../public/vite.svg";
 import RetrieveData from "./components/RetrieveData/RetrieveData";
-import Button from "./../app/components/Button/Button";
+import Button from "./components/Button/Button";
 
 const Home = () => {
   return (

@@ -4,6 +4,7 @@ import OSFAPIResponse from "../../types/OSF/OSFAPIResponse";
 import OSFStructFolder from "../../types/OSF/OSFStructFolder";
 import OSFStructFiles from "../../types/OSF/OSFStructFiles";
 import OSFStructFile from "../../types/OSF/OSFStructFile";
+import React from "react";
 
 const RetrieveData = (): JSX.Element => {
   const accessToken: string | undefined = process.env.NEXT_PUBLIC_API_KEY;
