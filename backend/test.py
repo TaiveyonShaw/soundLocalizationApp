@@ -4,4 +4,7 @@ import mat
 # mat.createarrowdataset(matFile)
 test = mat.makeAPIcall("https://api.osf.io/v2/nodes/xnr9f/files/osfstorage")
 
-newData = mat.downloadstructfiles(test['link'][0])
+newData = mat.createstructlist(test['link'][0])
+
+for i in range(len(newData[0])):
+    mat.downloadstructfiles(newData[0][i], newData[1][i])

@@ -1,6 +1,7 @@
 import pyarrow as pa
 import scipy.io as sc
 import requests
+import os
 
 # Creates a dictionary of all subject company name
 def makeAPIcall(APIurl):
@@ -85,17 +86,32 @@ def createsuperstruct(arrowsDataset):
     return arrowsDataset
 
 # Creates a link for all the specific subject files
-def downloadstructfiles(structAPI):
+def createstructlist(structAPI):
     response = requests.get(structAPI)
     if response.status_code == 200:
         apiResponse = response.json()
         data = apiResponse['data']
-        structArray = []
+        listOfData = [[] for _ in range(2)]
 
         for i in range(len(data)):
-            structArray.append(data[i]['links']['download'])
+            listOfData[0].append(data[i]['links']['download'])
+            listOfData[1].append(data[i]['attributes']['name'])
 
-        return structArray
+        return listOfData
     
     else:
         print('Error:', response.status_code)
+
+def downloadstructfiles(url, name):
+    response = requests.get(url)
+    download_directory = "dataset/"
+    os.makedirs(download_directory, exist_ok=True)
+    folderDirectory = os.path.join(download_directory, name)
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Save the content of the response to a local file
+        with open(folderDirectory, 'wb') as f:
+            f.write(response.content)
+        print("File downloaded successfully.")
+    else:
+        print("Failed to download file.")
