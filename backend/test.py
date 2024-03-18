@@ -7,4 +7,7 @@ test = mat.makeAPIcall("https://api.osf.io/v2/nodes/xnr9f/files/osfstorage")
 newData = mat.createstructlist(test['link'][0])
 
 for i in range(len(newData[0])):
-    mat.downloadstructfiles(newData[0][i], newData[1][i])
+    testarray = mat.downloadstructfile(newData[0][i])
+    break
+
+print(testarray)

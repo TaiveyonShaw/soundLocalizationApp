@@ -1,7 +1,7 @@
 import pyarrow as pa
 import scipy.io as sc
 import requests
-import os
+import io
 
 # Creates a dictionary of all subject company name
 def makeAPIcall(APIurl):
@@ -21,6 +21,35 @@ def makeAPIcall(APIurl):
     
     else:
         print('Error:', response.status_code)
+
+# Creates a link for all the specific subject files
+def createstructlist(structAPI):
+    response = requests.get(structAPI)
+    if response.status_code == 200:
+        apiResponse = response.json()
+        data = apiResponse['data']
+        listOfData = [[] for _ in range(2)]
+
+        for i in range(len(data)):
+            listOfData[0].append(data[i]['links']['download'])
+            listOfData[1].append(data[i]['attributes']['name'])
+
+        return listOfData
+    
+    else:
+        print('Error:', response.status_code)
+
+def createsuperstruct(arrowsDataset):
+    return arrowsDataset
+
+def downloadstructfile(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        print("File downloaded successfully.")
+        mat_data = io.BytesIO(response.content)
+        return sc.loadmat(mat_data)
+    else:
+        print("Failed to download file.")
 
 # Load .mat file
 def loadmatfile(file):
@@ -81,37 +110,3 @@ def createarrowdataset(structData):
 
     print(table)
     return table
-
-def createsuperstruct(arrowsDataset):
-    return arrowsDataset
-
-# Creates a link for all the specific subject files
-def createstructlist(structAPI):
-    response = requests.get(structAPI)
-    if response.status_code == 200:
-        apiResponse = response.json()
-        data = apiResponse['data']
-        listOfData = [[] for _ in range(2)]
-
-        for i in range(len(data)):
-            listOfData[0].append(data[i]['links']['download'])
-            listOfData[1].append(data[i]['attributes']['name'])
-
-        return listOfData
-    
-    else:
-        print('Error:', response.status_code)
-
-def downloadstructfiles(url, name):
-    response = requests.get(url)
-    download_directory = "dataset/"
-    os.makedirs(download_directory, exist_ok=True)
-    folderDirectory = os.path.join(download_directory, name)
-    # Check if the request was successful (status code 200)
-    if response.status_code == 200:
-        # Save the content of the response to a local file
-        with open(folderDirectory, 'wb') as f:
-            f.write(response.content)
-        print("File downloaded successfully.")
-    else:
-        print("Failed to download file.")
