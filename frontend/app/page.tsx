@@ -3,6 +3,7 @@ import reactLogo from "./../public/react.svg";
 import viteLogo from "./../public/vite.svg";
 import RetrieveData from "./components/RetrieveData/RetrieveData";
 import Button from "./components/Button/Button";
+import LoadData from "./components/LoadData/LoadData";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
         Click on the Vite and React logos to learn more
       </p>
       <RetrieveData />
+      <LoadData />
     </>
   );
 };
