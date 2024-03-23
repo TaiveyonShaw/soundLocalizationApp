@@ -22,21 +22,25 @@ class ApiScript:
 
     # Creates a link for all the specific subject files
     def composeStructList(structAPI):
-        response = requests.get(structAPI)
-        
-        if response.status_code == 200:
-            apiResponse = response.json()
-            data = apiResponse['data']
-            fileDict = {'links': [], 'names': []}
+        fileDict = {'links': [], 'names': []}
 
-            for i in range(len(data)):
-                fileDict['links'].append(data[i]['links']['download'])
-                fileDict['names'].append(data[i]['attributes']['name'])
+        while structAPI:
+            response = requests.get(structAPI)
 
-            return fileDict
+            if response.status_code == 200:
+                apiResponse = response.json()
+                data = apiResponse['data']
+
+                for i in range(len(data)):
+                    fileDict['links'].append(data[i]['links']['download'])
+                    fileDict['names'].append(data[i]['attributes']['name'])
+
+            else:
+                return 'Error:', response.status_code
+            
+            structAPI = apiResponse['links']['next']
         
-        else:
-            print('Error:', response.status_code)
+        return fileDict
 
     def loadMatFile(url, filename):
         response = requests.get(url)

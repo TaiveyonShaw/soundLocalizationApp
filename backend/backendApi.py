@@ -15,8 +15,7 @@ def add_cors_headers(response):
 @app.route('/')
 def get_data():
     try:
-        data = OsfScript.retrieveMatDataset()
-        return jsonify(data)
+        return jsonify(OsfScript.retrieveMatDataset())
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

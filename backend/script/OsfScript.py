@@ -1,4 +1,4 @@
-from ApiScript import ApiScript
+from .ApiScript import ApiScript
 
 class OsfScript:
     # Compiles all of the API calls and retrieves a Json file
@@ -13,13 +13,10 @@ class OsfScript:
         for i in range(len(structList['links'])):
             fileName = structList['names'][i]
             linkAddress = structList['links'][i]
-
+            print(i)
             matFiles[fileName] = ApiScript.loadMatFile(linkAddress, fileName)
 
         for key in matFiles:
             serializedJson[key] = ApiScript.serializeForJson(matFiles[key])
 
-        print(osfData['name'])
         return serializedJson
-
-OsfScript.retrieveMatDataset()
