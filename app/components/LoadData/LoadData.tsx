@@ -8,6 +8,7 @@ interface Data {
 const LoadData: React.FC = () => {
   const [data, setData] = useState<Data | null>(null);
   const [count, setCount] = useState(0);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
